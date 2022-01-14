@@ -6,12 +6,13 @@ info: github util functions
 import requests
 from math import ceil
 import pandas as pd
+from config import GitConfig
 
 
 def get_header():
-    header = {'Accept': 'application/vnd.github.v3.star+json',
-              'Authorization': "Token " + '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'}
+    header = {'Accept': GitConfig.GIT_DEV_VERSION, 'Authorization': "Token " + GitConfig.GIT_API_TOKEN}
     return header
+
 
 class GitService(object):
 
@@ -20,7 +21,7 @@ class GitService(object):
 
     def check_repo_exists(self, repo):
         header = get_header()
-        request_url = f"https://api.github.com/repos/{repo}"
+        request_url = f"{GitConfig.GIT_API_URL}/repos/{repo}"
         request_result = requests.get(request_url, headers=header)
         status_code = request_result.status_code
         if status_code == 200:
@@ -30,7 +31,7 @@ class GitService(object):
 
     def get_repo_star_count(self, repo):
         header = get_header()
-        request_url = f"https://api.github.com/repos/{repo}"
+        request_url = f"{GitConfig.GIT_API_URL}/repos/{repo}"
         request_result = requests.get(request_url, headers=header).json()
         return request_result['stargazers_count']
 
@@ -45,7 +46,7 @@ class GitService(object):
         header = get_header()
         star_info_list = []
         for page in range(1, total_pages):
-            request_url = f"https://api.github.com/repos/{repo}/stargazers?per_page=100&page={page}"
+            request_url = f"{GitConfig.GIT_API_URL}/repos/{repo}/stargazers?per_page=100&page={page}"
             request_result = requests.get(request_url, headers=header).json()
             star_info_list.append(request_result)
         return star_info_list
