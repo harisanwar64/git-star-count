@@ -54,7 +54,7 @@ class GitService(object):
     def get_repo_star_info_dataframe(self, repo):
         star_list = self.get_repo_star_info_list(repo)
         dataframe = pd.DataFrame(star_list)
-        dataframe = (dataframe["user"].apply(pd.Series).merge(dataframe, left_on=False, left_index=False, right_index=True))
+        dataframe = (dataframe["user"].apply(pd.Series).merge(dataframe, left_index=True, right_index=True))
         return dataframe
 
 
