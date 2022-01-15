@@ -16,7 +16,7 @@ to install required packages. <br/>
 Open http://127.0.0.1:5000 on browser to see output.
 
 **Note:** <br/>
--  Try to choose repo with less number of stars (recommended: less than 500 stars) as response time on html increases with increased number of stars in repo. 
+-  Try to choose repo with less number of stars (recommended: less than 500 stars) as response time on html increases with increased number of stars in repo. This loophole can be fix if spend more time by making external APIs call function asynchronous using asyncio included in python 3 new version.
 
 ### Application Structure
 
@@ -49,13 +49,15 @@ This application takes github repository (owner/repo_name) from user in html and
 
 Being an analyst i choose graphical approach for user to analyse how star count history grow with time. Standalone stars history (time, user, urls etc.) is not much informative as takes time and  effort of user to understand. Moreover, on top of that i have provide user to also see star users details in table format and csv.
 
-#### Security Policy and conventions compromised to due time limitations:
+#### Security Policy and conventions compromised due to time limitations:
 
 - In early commit history, due to limited time frame for this task by mistake i have pushed username and access token which is against security policy and coding conventions. kindly ingore and provide your own username and token while accessing application.
 - There should be seperate develop branch for development. 
 <br/>
+
 ### More things can be doable if spend more time
 
+- As i discussed earlier in note section, asynchronous frameworks (e.g. asyncio) can be used to make external API calls response efficient.
 - Use flask rest-plus framework instead of simple flask to automatically create documentation for APIs or [APIspec](https://github.com/marshmallow-code/apispec) to document APIs and its routes.
 - It would be better to create a small docker image of this application and deploy to avoid environment issues. Due to time limitations i couldnt do that.
 - More tests can be added for star info in dataframe and graph, csv created in csv_downloads or not, flask api responses etc.
