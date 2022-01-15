@@ -5,8 +5,10 @@
 **Requirements:** <br/>
 -  Make Sure python 3 and pip (python package installer) installed on your system to run this project.
 -  On root directory of project run: <br/> 
-`pip install -r requirements.txt` <br/> 
+`pip install -r requirements.txt` or `pip3 install -r requirements.txt` <br/> 
 to install required packages. <br/>
+- If face any issues while meeting packages and python versions conflicts, try install 4 packages (flask, matplotlib, pandas and requests) manually using command:
+`pip install <package_name>`
 -  Place your git username  under `GIT_USERNAME` and access token (provided by github) under variable `GIT_API_TOKEN` inside file `config.py`. See [git doc](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to know more about this.<br/>
 -  Before run application and to test your token please run a unit test placed under directory `/tests/unit_tests.py`. 
 -  After that: <br/>
