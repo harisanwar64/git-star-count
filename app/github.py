@@ -45,11 +45,17 @@ class GitService(object):
         total_pages = self.get_repo_total_pages(repo)
         header = get_header()
         star_info_list = []
-        for page in range(1, total_pages):
+        for page in range(1, total_pages + 1):
             request_url = f"{GitConfig.GIT_API_URL}/repos/{repo}/stargazers?per_page=100&page={page}"
             request_result = requests.get(request_url, headers=header).json()
-            star_info_list.append(request_result)
+            star_info_list.extend(request_result)
         return star_info_list
+
+    def get_repo_star_info_dataframe(self, repo):
+        star_list = self.get_repo_star_info_list(repo)
+        dataframe = pd.DataFrame(star_list)
+        dataframe = (dataframe["user"].apply(pd.Series).merge(dataframe, left_on=False, left_index=False, right_index=True))
+        return dataframe
 
 
 if __name__ == "__main__":

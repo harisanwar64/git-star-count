@@ -28,7 +28,9 @@ def submit_repo():
     """This method submits user input (git owner/repo) from home page"""
     git_repo = request.form['repo-name']
     repo_exists = github.GitService().check_repo_exists(git_repo)
-    print(repo_exists)
+    if repo_exists:
+        df = github.GitService().get_repo_star_info_dataframe(git_repo)
+        return render_template('result.html', table=[df.to_html()])
 
 
 if __name__ == '__main__':
