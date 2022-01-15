@@ -76,6 +76,7 @@ class GitService(object):
 
 
 if __name__ == "__main__":
-    repo = 'pytorch/kineto'
+    # todo: need to add try catch exceptions for above github functions for error handling
+    repo = 'pytorch/probot'
     df = GitService().get_repo_star_info_dataframe(repo)
     # print(df)

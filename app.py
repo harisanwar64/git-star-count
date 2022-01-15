@@ -4,6 +4,7 @@ info: flask API page: Controller
 """
 from flask import Flask, render_template, make_response, request
 from app import github
+import os
 
 app = Flask(__name__)
 
@@ -25,14 +26,18 @@ def other_page(different_page):
 
 @app.route('/submit_repo', methods=['POST'])
 def submit_repo():
-    """This method submit user input (git owner/repo) and output results in html with star count, graph plot
-    and dataframe as table"""
+    """This method submit user input (git owner/repo) and output results in html with star count, graph plot,
+    dataframe as table and download csv file in csv_download directory"""
     git_repo = request.form['repo-name']
     repo_exists = github.GitService().check_repo_exists(git_repo)
     if repo_exists:
         star_count = github.GitService().get_repo_star_count(git_repo)
         df = github.GitService().get_repo_star_info_dataframe(git_repo)
         star_history_plot = github.GitService().draw_plot_for_dataframe(df, git_repo)
+        # getting current directory to output .csv file (star info) into directory 'csv_downloads'
+        directory = os.getcwd()
+        # todo: button need to be on UI to download csv (optional for user) instead of download everytime.
+        df.to_csv(directory + '/csv_downloads' + '/star-history-' + git_repo.split('/')[1] + '.csv')
         return render_template('result.html', stars=star_count, table=[df.to_html()],
                                star_history_plot=star_history_plot)
     else:
