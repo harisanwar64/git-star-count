@@ -25,12 +25,19 @@ def other_page(different_page):
 
 @app.route('/submit_repo', methods=['POST'])
 def submit_repo():
-    """This method submits user input (git owner/repo) from home page"""
+    """This method submit user input (git owner/repo) and output results in html with star count, graph plot
+    and dataframe as table"""
     git_repo = request.form['repo-name']
     repo_exists = github.GitService().check_repo_exists(git_repo)
     if repo_exists:
+        star_count = github.GitService().get_repo_star_count(git_repo)
         df = github.GitService().get_repo_star_info_dataframe(git_repo)
-        return render_template('result.html', table=[df.to_html()])
+        star_history_plot = github.GitService().draw_plot_for_dataframe(df, git_repo)
+        return render_template('result.html', stars=star_count, table=[df.to_html()],
+                               star_history_plot=star_history_plot)
+    else:
+        # todo: if repo not exists, display proper message on UI to let user know.
+        return render_template('page.html')
 
 
 if __name__ == '__main__':

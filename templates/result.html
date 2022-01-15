@@ -4,9 +4,15 @@
     </head>
 <body>
     <h2>Github Repository Star Count History</h2><br><br>
+    <!-- show total count -->
+    <h4>Total Stars: {{stars}}</h4>
+    <!-- show matplotlib graph -->
+    <img src="data:image/png;base64, {{ star_history_plot }}">
     <!-- show dataframe as table (login, id and timestamp) -->
     <div>
-        {% for column in table %} {{ column|safe }} {% endfor %}
+        {% for column in table %}
+            {{ column|safe }}
+        {% endfor %}
     </div>
 </body>
 </html>

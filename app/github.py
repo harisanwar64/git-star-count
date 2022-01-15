@@ -6,6 +6,9 @@ info: github util functions
 import requests
 from math import ceil
 import pandas as pd
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 from config import GitConfig
 
 
@@ -57,9 +60,22 @@ class GitService(object):
         dataframe = (dataframe["user"].apply(pd.Series).merge(dataframe, left_index=True, right_index=True))
         return dataframe
 
+    def extract_df_datetime_column_to_list(self, dataframe):
+        time_list = list(pd.to_datetime(dataframe.starred_at))
+        return time_list
+
+    def draw_plot_for_dataframe(self, dataframe, repo):
+        time_list = self.extract_df_datetime_column_to_list(dataframe)
+        ax = plt.axes()
+        img = BytesIO()
+        ax.plot(time_list, dataframe.index, label=repo)
+        plt.savefig(img, format='png')
+        plt.close()
+        star_history_plot = base64.b64encode(img.getvalue()).decode('utf8')
+        return star_history_plot
+
 
 if __name__ == "__main__":
-    #todo: need to input repo from user (ui)
     repo = 'pytorch/kineto'
-    star_list = GitService().get_repo_star_info_list(repo)
-    dataframe = pd.DataFrame(star_list)
+    df = GitService().get_repo_star_info_dataframe(repo)
+    # print(df)
