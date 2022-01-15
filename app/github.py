@@ -9,6 +9,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+import sys
+sys.path.append('.')
 from config import GitConfig
 
 
