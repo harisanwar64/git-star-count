@@ -3,8 +3,14 @@
     <title>Github star count app</title>
     </head>
 <body>
-
-    <h1>Github Repository Star Count History</h1>
-
+    <h3>Github Repository Star Count History</h3>
+    <div>
+        <form action="{{ url_for('submit_repo') }}" method="post">
+            <!-- input from app user -->
+            <label for="repo-name">Enter Github repository (owner/repo):  </label>
+            <input type="text" name="repo-name">
+            <input type="submit">
+        </form>
+    </div>
 </body>
 </html>
